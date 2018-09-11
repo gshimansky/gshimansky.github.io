@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gregory Shimansky blog</title>
+    <link>https://gshimansky.github.io/</link>
+    <description>Recent content on Gregory Shimansky blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 10:16:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://gshimansky.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to clone a libvirt VM controlled by Vagrant</title>
+      <link>https://gshimansky.github.io/posts/00002-clone-libvirt-vm-controlled-by-vagrant.md/</link>
+      <pubDate>Thu, 30 Aug 2018 10:16:00 -0500</pubDate>
+      
+      <guid>https://gshimansky.github.io/posts/00002-clone-libvirt-vm-controlled-by-vagrant.md/</guid>
+      <description>Strangely enough, googling about this problem doesn&amp;rsquo;t produce any meaningful results. So here are steps which allow cloning a libvirt VM controlled by Vagrant. Imagine that you have a VM named testvm1 which you want to clone into testvm2.
+ Shutdown all VMs with vagrant halt or at least from inside of VM with sudo shutdown -h 0. Figure our real VM name with virsh list --all | grep testvm1. Usually Vagrant adds its own vagrant_ prefix to VM names.</description>
+    </item>
+    
+  </channel>
+</rss>

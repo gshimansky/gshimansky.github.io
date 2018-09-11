@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to clone a libvirt VM controlled by Vagrant | Gregory Shimansky blog</title>
+<link rel="stylesheet" href="https://gshimansky.github.io/css/style.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://gshimansky.github.io"><h1 class="title is-4">Gregory Shimansky blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="subtitle is-6">August 30, 2018</h2>
+    <h1 class="title">How to clone a libvirt VM controlled by Vagrant</h1>
+    <div class="content">
+      <p>Strangely enough, googling about this problem doesn&rsquo;t produce any
+meaningful results. So here are steps which allow cloning a libvirt VM
+controlled by Vagrant. Imagine that you have a VM named <code>testvm1</code>
+which you want to clone into <code>testvm2</code>.</p>
+
+<ul>
+<li>Shutdown all VMs with <code>vagrant halt</code> or at least from inside of VM
+with <code>sudo shutdown -h 0</code>.</li>
+<li>Figure our real VM name with <code>virsh list --all | grep
+testvm1</code>. Usually Vagrant adds its own <code>vagrant_</code> prefix to VM
+names. If you don&rsquo;t like it, you can rename VM with <code>virsh
+domrename</code> command, Vagrant will still know it because Vagrant
+refers to VMs by UUID instead of a name.</li>
+<li>Clone VM image with <code>virt-clone --original testvm1 --name testvm2
+--auto-clone</code>. You can specify additinal options like new image file
+name instead of <code>--auto-clone</code>.</li>
+
+<li><p>Edit your Vagrantfile to produce a configuration for new <code>testvm2</code>
+VM. I have an array of VM names which I loop over like this:</p>
+
+<pre><code class="language-ruby">  names_array = ['testvm1', 'testvm2']
+# .....
+  (0..vm_total_number - 1).each do |i|
+    vm_name = names_array[i]
+    config.vm.define &quot;#{vm_name}&quot; do |node|
+      node.vm.hostname = &quot;#{vm_name}&quot;
+# .......
+    end
+  end
+</code></pre></li>
+
+<li><p>Find new VM UUID with <code>virsh dumpxml testvm2 | grep uuid</code>.</p></li>
+
+<li><p>Copy directory <code>.vagrant/machines/testvm1</code>
+to<code>.vagrant/machines/testvm2</code>.</p></li>
+
+<li><p>Edit file <code>.vagrant/machines/testvm2/libvirt/id</code> and put new UUID
+there.</p></li>
+
+<li><p>Edit file <code>.vagrant/machines/testvm2/libvirt/action_provision</code> and
+replace old UUID with new one there as well.</p></li>
+
+<li><p>Create a new 32-digital HEX identifier, e.g. with <code>dd count=1
+if=/dev/random 2&gt; /dev/null | md5sum</code>.</p></li>
+
+<li><p>Write this ideintfier to file <code>index_uuid</code> instead of an old one.</p></li>
+
+<li><p>Edit file <code>~/.vagrant.d/data/machine-index/index</code>. It is in JSON
+format. You need to copy a block beginning with an old contents of
+<code>index_uuid</code> and all that follows it in curly brackets <code>{}</code>. Be
+careful and make a file backup because it is very easy to break JSON
+syntax. Now in new VM block change the VM id to newly generated and
+change its host name for <code>&quot;name&quot;:</code> tag.</p></li>
+
+<li><p>Check with <code>vagrant status</code> that you have a new VM in shutdown
+state.</p></li>
+
+<li><p>You are ready to start a VM with <code>vagrant up</code> command.</p></li>
+</ul>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p></p>
+  </div>
+</section>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
