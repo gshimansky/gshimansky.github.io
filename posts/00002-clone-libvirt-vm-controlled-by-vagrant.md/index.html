@@ -34,17 +34,19 @@ meaningful results. So here are steps which allow cloning a libvirt VM
 controlled by Vagrant. Imagine that you have a VM named <code>testvm1</code>
 which you want to clone into <code>testvm2</code>.</p>
 
-<ul>
-<li>Shutdown all VMs with <code>vagrant halt</code> or at least from inside of VM
-with <code>sudo shutdown -h 0</code>.</li>
-<li>Figure our real VM name with <code>virsh list --all | grep
+<ol>
+<li><p>Shutdown all VMs with <code>vagrant halt</code> or at least from inside of VM
+with <code>sudo shutdown -h 0</code>.</p></li>
+
+<li><p>Figure our real VM name with <code>virsh list --all | grep
 testvm1</code>. Usually Vagrant adds its own <code>vagrant_</code> prefix to VM
 names. If you don&rsquo;t like it, you can rename VM with <code>virsh
 domrename</code> command, Vagrant will still know it because Vagrant
-refers to VMs by UUID instead of a name.</li>
-<li>Clone VM image with <code>virt-clone --original testvm1 --name testvm2
+refers to VMs by UUID instead of a name.</p></li>
+
+<li><p>Clone VM image with <code>virt-clone --original testvm1 --name testvm2
 --auto-clone</code>. You can specify additinal options like new image file
-name instead of <code>--auto-clone</code>.</li>
+name instead of <code>--auto-clone</code>.</p></li>
 
 <li><p>Edit your Vagrantfile to produce a configuration for new <code>testvm2</code>
 VM. I have an array of VM names which I loop over like this:</p>
@@ -87,7 +89,7 @@ change its host name for <code>&quot;name&quot;:</code> tag.</p></li>
 state.</p></li>
 
 <li><p>You are ready to start a VM with <code>vagrant up</code> command.</p></li>
-</ul>
+</ol>
 
     </div>
   </div>
