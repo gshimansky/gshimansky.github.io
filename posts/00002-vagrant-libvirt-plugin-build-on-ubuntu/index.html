@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vagrant Libvirt Plugin Build on Ubuntu | Gregory Shimansky blog</title>
+<link rel="stylesheet" href="https://gshimansky.github.io/css/style.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://gshimansky.github.io"><h1 class="title is-4">Gregory Shimansky blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="subtitle is-6">February 26, 2019</h2>
+    <h1 class="title">Vagrant Libvirt Plugin Build on Ubuntu</h1>
+    <div class="content">
+      <p>On modern Ubuntu versions vagrant plugin vagrant-plugin fails to build. It is
+necessary to specify correct locations of libvirt headers and librarires.
+Possible solution can be found
+<a href="https://github.com/hashicorp/vagrant/issues/7039#issuecomment-403653620">here</a>:</p>
+
+<pre><code>CONFIGURE_ARGS=&quot;with-libvirt-include=/usr/include/libvirt with-libvirt-lib=/usr/lib64&quot; vagrant plugin install vagrant-libvirt
+Installing the 'vagrant-libvirt' plugin. This can take a few minutes...
+Building native extensions.  This could take a while...
+Fetching: fog-libvirt-0.5.0.gem (100%)
+Fetching: vagrant-libvirt-0.0.43.gem (100%)
+Installed the plugin 'vagrant-libvirt (0.0.43)'!
+</code></pre>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p></p>
+  </div>
+</section>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+

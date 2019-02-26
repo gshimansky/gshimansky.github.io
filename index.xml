@@ -6,10 +6,20 @@
     <description>Recent content on Gregory Shimansky blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Aug 2018 10:16:00 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 26 Feb 2019 09:45:10 -0600</lastBuildDate>
     
 	<atom:link href="https://gshimansky.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vagrant Libvirt Plugin Build on Ubuntu</title>
+      <link>https://gshimansky.github.io/posts/00002-vagrant-libvirt-plugin-build-on-ubuntu/</link>
+      <pubDate>Tue, 26 Feb 2019 09:45:10 -0600</pubDate>
+      
+      <guid>https://gshimansky.github.io/posts/00002-vagrant-libvirt-plugin-build-on-ubuntu/</guid>
+      <description>On modern Ubuntu versions vagrant plugin vagrant-plugin fails to build. It is necessary to specify correct locations of libvirt headers and librarires. Possible solution can be found here:
+CONFIGURE_ARGS=&amp;quot;with-libvirt-include=/usr/include/libvirt with-libvirt-lib=/usr/lib64&amp;quot; vagrant plugin install vagrant-libvirt Installing the &#39;vagrant-libvirt&#39; plugin. This can take a few minutes... Building native extensions. This could take a while... Fetching: fog-libvirt-0.5.0.gem (100%) Fetching: vagrant-libvirt-0.0.43.gem (100%) Installed the plugin &#39;vagrant-libvirt (0.0.43)&#39;!  </description>
+    </item>
     
     <item>
       <title>How to clone a libvirt VM controlled by Vagrant</title>
