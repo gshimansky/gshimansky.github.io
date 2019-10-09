@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Gregory Shimansky blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Feb 2019 09:45:10 -0600</lastBuildDate>
+    <lastBuildDate>Tue, 08 Oct 2019 21:40:58 -0500</lastBuildDate>
     
 	<atom:link href="https://gshimansky.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Fix for HP CUPS driver in Ubuntu</title>
+      <link>https://gshimansky.github.io/posts/00003-hp-cups-driver-fix/</link>
+      <pubDate>Tue, 08 Oct 2019 21:40:58 -0500</pubDate>
+      
+      <guid>https://gshimansky.github.io/posts/00003-hp-cups-driver-fix/</guid>
+      <description>Symptom: In /var/log/cups/error_log there is a message (/usr/lib/cups/filter/hpcups) crashed on signal 11. and printer doesn&amp;rsquo;t print anything. The problem is that hpcups is buggy in Ubuntu 19.04. A solution is to install HP printer driver from sources from https://developers.hp.com/hp-linux-imaging-and-printing. There are several problems with this however.
+ Delete all printer configurations from /etc/cups/printers.conf. First download and run HPLIP main source hplip-3.19.8.run and a plugin for it hplip-3.19.8-plugin.run. Use whatever version is latest from HP site.</description>
+    </item>
     
     <item>
       <title>Vagrant Libvirt Plugin Build on Ubuntu</title>

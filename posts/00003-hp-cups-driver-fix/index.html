@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fix for HP CUPS driver in Ubuntu | Gregory Shimansky blog</title>
+<link rel="stylesheet" href="https://gshimansky.github.io/css/style.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://gshimansky.github.io"><h1 class="title is-4">Gregory Shimansky blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="subtitle is-6">October 8, 2019</h2>
+    <h1 class="title">Fix for HP CUPS driver in Ubuntu</h1>
+    <div class="content">
+      <p>Symptom: In /var/log/cups/error_log there is a message
+<code>(/usr/lib/cups/filter/hpcups) crashed on signal 11.</code> and printer
+doesn&rsquo;t print anything. The problem is that hpcups is buggy in Ubuntu
+19.04.
+A solution is to install HP printer driver from sources from
+<a href="https://developers.hp.com/hp-linux-imaging-and-printing">https://developers.hp.com/hp-linux-imaging-and-printing</a>. There
+are several problems with this however.</p>
+
+<ol>
+<li>Delete all printer configurations from <code>/etc/cups/printers.conf</code>.</li>
+<li>First download and run HPLIP main source hplip-3.19.8.run and a
+plugin for it hplip-3.19.8-plugin.run. Use whatever version is
+latest from HP site.</li>
+<li>Try to run <code>./hplip-3.19.8.run</code> and install as much as there is
+installing.</li>
+<li>In my case plugin installation failed and I couldn&rsquo;t go on.</li>
+
+<li><p>Plugin tries to access keyserver <code>pgp.mit.edu</code> which fails to
+produce any keys. It helped me to execute the following commands:</p>
+
+<pre><code>gpg --keyserver pool.sks-keyservers.net --recv-keys 0x4ABA2F66DBD5A95894910E0673D770CDA59047B9
+/usr/bin/gpg --homedir /home/gregory/.hplip/.gnupg --no-permission-warning --keyserver pool.sks-keyservers.net --recv-keys 0x4ABA2F66DBD5A95894910E0673D770CDA59047B9
+</code></pre></li>
+
+<li><p>Close hplip installation and try to run <code>hp-setup -g</code>.</p></li>
+
+<li><p>I noticed that when listing libraries I got the same errors as in
+<a href="https://bugs.launchpad.net/hplip/+bug/1818629/comments/26">this comment</a>. It is necessary to fix all of the libraries that it
+complains about using symlinks.</p></li>
+
+<li><p>Plugin installation successfully finishes. It is possible to finis
+<code>hp-setup</code> and create a new printer configuration now.</p></li>
+
+<li><p>The problem with <code>hpcups</code> doesn&rsquo;t go away because HPLIP driver
+didn&rsquo;t modify already installed Ubuntu version. It is necessary to
+uninstall it from the system with <code>sudo apt-get remove printer-driver-hpcups</code>.</p></li>
+
+<li><p>Then don&rsquo;t do <code>sudo apt autoremove</code> because this will install
+necessary packages and HPLIP installation fails. I also had to
+install <code>python3-pyqt4</code> to proceed.</p></li>
+
+<li><p>Run <code>./hplip-3.19.8.run</code> again this time to install its own
+version of <code>hpcups</code>.</p></li>
+
+<li><p>If plugin has to be installed again and you&rsquo;re getting <code>error:
+Python gobject/dbus may be not installed</code> what helped me was to
+run plugin installation manually <code>./hplip-3.19.8-plugin.run
+--confirm</code>.</p></li>
+
+<li><p>This creates a <code>/tmp</code> directory with self extracting archive
+contents and asks whether to execute command
+<code>./hplip-plugin-install -v 3.19.8 -c 64</code></p></li>
+
+<li><p>Manually cd to the unpacked directory in <code>/tmp</code> and execute this
+command. Plugin installation is successful, finally!</p></li>
+</ol>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p></p>
+  </div>
+</section>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
